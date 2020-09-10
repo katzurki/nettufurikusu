@@ -590,7 +590,7 @@ footer .owner p a {
 .markdown-body pre.lines {
 	font-size: 12px;
 	margin: 0 10px 0 -20px;
-	padding: 10px;
+	padding: 4px;
 	float: left;
 	display: block;
 	text-align: right;
