@@ -252,6 +252,7 @@ h1.title {
 h2.title {
 	margin: 30px 20px 10px;
 	font-size: 40px;
+	font-color: gold;
 	font-weight: bold;
 	font-family: Georgia, serif;
 	text-align: center
