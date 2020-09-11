@@ -1,30 +1,20 @@
-## Installation/Usage, the TL;DR edition
+# Essential
 
-[b]Drag[/b] maru·nettu from here to the Bookmark Bar in Chrome.
-[b]Click the bookmarklet[/b] [b]once[/b] in an open Originator task.
-You should now have extra entries in your More Actions menu.
-If something goes wrong, you can use Restore Default View
-or reload the page.
+**Drag** [maru·nettu](https://placeholder.link) from here to the Bookmark Bar in Chrome.
+**Click** the bookmarklet **once** in an open Originator task, then check out the More Actions menu. It should be populated with new entries for extra features. Using them should be self-explanatory with pop-ups where it needs information or issues a warning; of course, feel free to send me questions, concerns, and bug reports. Also beer.
+
+All changes "made" to the Originator are local and will not persist; they will be gone as soon as you refresh or quit the page. All tools provided here can work offline. My code contains no trackers and keeps no usage logs. The latest production version unminified source code is found below and is functionally identical to the minified-code link above.
+
+I do not recommend using Import SRT unless you know the limitations and dangers of importing SRT as raw Originator data. Please contact me if you have questions.
+
+This is an **early beta release**, which means there may be annoying bugs.
 
 # Disclaimer
-No trackers, no usage statistics, does not need an Internet connection.
-But also no warranty, no guarantee of result, no liability accepted.
-Using this tool carries the understanding that any data, files,
-information obtained in the process is as confidential as its source.
+This GPLv3-released tool contains no trackers, keeps no usage statistics, and does not need an Internet connection to work.
+There is no warranty and no guarantee of result. Technical support will be provided on a limited basis. Donations are welcome but not required or requested.
+No liability will be accepted from potential consequences of using the tool. By using the tool it is tacitly understood that any data, files, and other information obtained in the process is by its nature confidential and may not be shared. In all other aspects let common sense and the general spirit of GPLv3 prevail for the good of all.
 
-The tool and its code are open-source and may be used for free,
-distributed, reused, modified and otherwise acted on 
-under the terms of GPLv3
-
-(for example, clicking twice gives you twice as many entries), either use the Restore Default View option (goes through the namespace cleaning up everything)
-
-You can use the [editor on GitHub](https://github.com/katzurki/nettufurikusu/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+# Source Code
 
 ```javascript
 var menu = document.querySelector("div.popup")
