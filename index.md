@@ -1,4 +1,22 @@
-## Welcome to GitHub Pages
+## Installation/Usage, the TL;DR edition
+
+[b]Drag[/b] maru·nettu from here to the Bookmark Bar in Chrome.
+[b]Click the bookmarklet[/b] [b]once[/b] in an open Originator task.
+You should now have extra entries in your More Actions menu.
+If something goes wrong, you can use Restore Default View
+or reload the page.
+
+# Disclaimer
+No trackers, no usage statistics, does not need an Internet connection.
+But also no warranty, no guarantee of result, no liability accepted.
+Using this tool carries the understanding that any data, files,
+information obtained in the process is as confidential as its source.
+
+The tool and its code are open-source and may be used for free,
+distributed, reused, modified and otherwise acted on 
+under the terms of GPLv3
+
+(for example, clicking twice gives you twice as many entries), either use the Restore Default View option (goes through the namespace cleaning up everything)
 
 You can use the [editor on GitHub](https://github.com/katzurki/nettufurikusu/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
