@@ -3300,7 +3300,11 @@ document.onkeydown = function(event){
 
   function imarunettuImportBetterSrt()
   {
-     (function () {window.open('https://katzurki.github.io/nettufurikusu/ImportBetterSRT.html')})()
+     (function () {
+      document.querySelectorAll("#appView > div > div.cpe-page-menu > div > div.actions > button:nth-child(2)")[0].click();
+      var fps_ = document.querySelectorAll(".info-body")[0].children[9].innerText.replace(/[^_0-9]{5}/g,'').trim()
+      document.querySelectorAll("#appView > div > div.InfoPopup > dialog > div.info-body")[0].nextSibling.lastElementChild.click()
+      window.open('https://katzurki.github.io/nettufurikusu/ImportBetterSRT.html#'+fps_)})()
   }
 
   function imarunettuAuxFade(type, ms, el, remove = false)
