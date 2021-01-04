@@ -3,6 +3,14 @@
 <!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on https://github.com/jonrohan -->
 <html lang="en-US">
 <head>
+  <script>
+  function imaruIframeLoaded(){
+    var autoQCSrc = document.getElementById("autoQCFullLatest").contentWindow.document.body.innerText;
+var autoQCMini = "javascript:(function()%7B"+encodeURIComponent(autoQCSrc.trim()).replace(/%20%20/g,' ').replace(/\s/g,'')+"%7D)()%3B"
+document.getElementById("mainBookmarklet").href=autoQCMini;
+document.getElementById("mainBookmarklet").style.opacity="1";    
+}
+  </script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -3110,12 +3118,5 @@ tr:hover {
 
 
 <iframe id="autoQCFullLatest" width="0" height="0" border="0" style="visibility:none;" src="AutoQC_latest.js.txt" onload="imaruIframeLoaded();"></iframe> 
-<script>
-  function imaruIframeLoaded(){
-    var autoQCSrc = document.getElementById("autoQCFullLatest").contentWindow.document.body.innerText;
-var autoQCMini = "javascript:(function()%7B"+encodeURIComponent(autoQCSrc.trim()).replace(/%20%20/g,' ').replace(/\s/g,'')+"%7D)()%3B"
-document.getElementById("mainBookmarklet").href=autoQCMini;
-document.getElementById("mainBookmarklet").style.opacity="1";    
-}
 </body>
 </html>
