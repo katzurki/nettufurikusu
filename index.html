@@ -5,7 +5,9 @@
 <head>
   <script>
   function imaruIframeLoaded(){
-    var autoQCSrc = document.getElementById("autoQCFullLatest").contentWindow.document.body.innerText;
+var autoQCSrc = document.getElementById("autoQCFullLatest").contentWindow.document.body.innerText;
+eval(autoQCSrc.split("\n")[0]); //eval( 'var IMARUVERSION = "Jan3/2021" ');
+document.getElementById("imaruVersion).innerText = IMARUVERSION;
 var autoQCMini = "javascript:(function()%7B"+encodeURIComponent(autoQCSrc.trim()).replace(/%20%20/g,' ').replace(/\s/g,'')+"%7D)()%3B"
 document.getElementById("mainBookmarklet").href=autoQCMini;
 document.getElementById("mainBookmarklet").style.opacity="1";    
@@ -26,7 +28,7 @@ document.getElementById("mainBookmarklet").style.opacity="1";
 <!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>imaru·nettu the metabookmarklet</title>
 <meta name="generator" content="Jekyll v3.9.0" />
-<meta property="og:title" content="Essential" />
+<meta property="og:title" content="imaru•nettu" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Combining all the previous Netflix Originator UX enhancements into one metabookmarklet, she is all you need to Export MP4, Export/Import SRT (Source, Target), Export Bilingual HTML, AutoQC and AutoFix. Her name is ‘imarunettufurikusu.’ We still don’t know why." />
 <meta property="og:description" content="Combining all the previous Netflix Originator UX enhancements into one metabookmarklet, she is all you need to Export MP4, Export/Import SRT (Source, Target), Export Bilingual HTML, AutoQC and AutoFix. Her name is ‘imarunettufurikusu.’ We still don’t know why." />
@@ -53,7 +55,7 @@ document.getElementById("mainBookmarklet").style.opacity="1";
         <div class="download-bar">
         <div class="inner">
      
-          <a href="https://github.com/katzurki/nettufurikusu" class="code">imaru·nettu·furi·kusu, a project by @katzurki, @jpmodisette, @giangevor, @zerobias</a>
+          <a href="https://github.com/katzurki/nettufurikusu" class="code">imaru·nettu·furi·kusu, a project by @katzurki</a>&nbsp;<span id="imaruVersion"></span>
         </div>
         <span class="blc"></span><span class="trc"></span>
         </div>
