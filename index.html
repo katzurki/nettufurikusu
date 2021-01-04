@@ -7,7 +7,7 @@
   function imaruIframeLoaded(){
 var autoQCSrc = document.getElementById("autoQCFullLatest").contentWindow.document.body.innerText;
 eval(autoQCSrc.split("\n")[0]); //eval( 'var IMARUVERSION = "Jan3/2021" ');
-document.getElementById("imaruVersion).innerText = IMARUVERSION;
+document.getElementById("imaruVersion).innerText = "Last update: "+IMARUVERSION;
 var autoQCMini = "javascript:(function()%7B"+encodeURIComponent(autoQCSrc.trim()).replace(/%20%20/g,' ').replace(/\s/g,'')+"%7D)()%3B"
 document.getElementById("mainBookmarklet").href=autoQCMini;
 document.getElementById("mainBookmarklet").style.opacity="1";    
