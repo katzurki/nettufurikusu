@@ -1,10 +1,10 @@
 <head>
-	        <title>Jan 3 2021 - Javascript tool to Import SRT into Originator</title>
+	        <title>Jan 4 2021 - Javascript tool to Import SRT into Originator</title>
 <meta charset="utf-8">
 <meta property="og:type"            content="article" /> 
-<meta property="og:url"             content="https://katzurki.github.io/NFLX/ImportSRT.html" /> 
+<meta property="og:url"             content="https://katzurki.github.io/nettufurikusu/ImportBetterSRT.html" /> 
 <meta property="og:title"           content="ImportSRT functionality for Originator" /> 
-<meta property="og:description"    content="https://katzurki.github.io/NFLX/README.md" />
+<meta property="og:description"    content="https://katzurki.github.io/nettufurikusu" />
 	<style>
 		srt-html * {
   color: #eeeeee !important;
@@ -137,7 +137,7 @@ function fade(type, ms, el, remove = false) {
 
     var fading = window.setInterval(func, interval)
 }
-var infer_fps = document.location.href.replace(/.+#FPS_/g,'').replace(/[^\d]/g,'').replace(/(^\d{2})/,'$1.')*1
+var infer_fps = document.location.href.replace(/.+#FPS_/g,'').replace(/[^\d]/g,'').replace(/(^\d{2})/,'$1.')*1 //converts, in a crudely failsafe fashion, anything like FPS_23976 or FPS_2400 to a normal float
 if(infer_fps.toString()=="NaN") {var fps=24.00} else {var fps = infer_fps}
 var event_counter = 0
 var new_fps = 0
@@ -185,7 +185,7 @@ function isInt(value) {
 function setFPS() {
     var new_fps = prompt("Current FPS set to: " + fps +
         "\nPress Enter to keep current FPS or enter new, e.g. 2500 or 2397 or 2997:",
-        "2400")
+        fps.replace(/\.,/g,''))
     if (new_fps === null) var new_fps = 2400
     new_fps = new_fps.replace(".", "")
     new_fps = new_fps.replace(",", "")
