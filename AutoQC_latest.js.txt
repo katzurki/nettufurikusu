@@ -1,4 +1,4 @@
-  var IMARUVERSION = "Jan3/2021"
+  var IMARUVERSION = "Janury, 5, 2021"
   var menu = document.querySelector("div.popup")
   var itemButtons = document.getElementsByClassName("item-button")
   var dropdown = itemButtons[itemButtons.length -
