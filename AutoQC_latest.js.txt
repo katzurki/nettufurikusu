@@ -1,4 +1,4 @@
-  var IMARUVERSION = "Jan-5-2021"
+  var IMARUVERSION = "Jan-18-2021"
   var menu = document.querySelector("div.popup")
   var itemButtons = document.getElementsByClassName("item-button")
   var dropdown = itemButtons[itemButtons.length -
@@ -1415,6 +1415,17 @@
                     minTotal++
                     eventFixedTxt = eventFixedTxt.replace(/\.\.\./g,
                        "…")
+                    afTotal++
+                 }
+
+                 if(eventTxt.indexOf(" ,") !== -1)
+                 {
+                    eventIssue.push(
+                       "<span class=\"minor_issue\">⚠️ Extraneous space before comma"
+                       );
+                    minTotal++
+                    eventFixedTxt = eventFixedTxt.replace(/ ,/g,
+                       ",")
                     afTotal++
                  }
   				if( (eventTxt.indexOf('",') !== -1 || eventTxt.indexOf('".') !== -1) && LANG == "EN" && eventTxt.indexOf('"...') == -1 ) {
