@@ -229,9 +229,9 @@
            {
 
           String.prototype.regexIndexOf = function(regex, startpos) {
-      	var indexOf = this.substring(startpos || 0).search(regex);
-      	return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
-      	}
+        var indexOf = this.substring(startpos || 0).search(regex);
+        return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
+        }
 
               var clq_pattern = new RegExp(
                  '^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
@@ -1428,23 +1428,23 @@
                        ",")
                     afTotal++
                  }
-  				if( (eventTxt.indexOf('",') !== -1 || eventTxt.indexOf('".') !== -1) && LANG == "EN" && eventTxt.indexOf('"...') == -1 ) {
-                 	  eventIssue.push(
+          if( (eventTxt.indexOf('",') !== -1 || eventTxt.indexOf('".') !== -1) && LANG == "EN" && eventTxt.indexOf('"...') == -1 ) {
+                    eventIssue.push(
                        "<span class=\"minor_issue\">⚠️ Commas and periods stay within “quotes,” “like so.”"
                        )
-                 	  minTotal++
-  				  eventFixedTxt = eventFixedTxt.replace(/"([.,])/g,'$1"')
-  				  afTotal++ 
+                    minTotal++
+            eventFixedTxt = eventFixedTxt.replace(/"([.,])/g,'$1"')
+            afTotal++ 
                  }
 
                  if( (eventTxt.regexIndexOf(/([^\w]|^)OK[^\w]/,0) !== -1 && LANG == "EN" )) {
-                 	  eventIssue.push(
+                    eventIssue.push(
                        "<span class=\"minor_issue\">⚠️ Netflix requires OK to be spelled fully: “Okay.”"
                        )
-                 	  minTotal++
-                 	  debugger;
-  				  eventFixedTxt = eventFixedTxt.replace(/([\w,"“”’…;:][^\w])OK([^\w])/g,"$1okay$2").replace(/([^\w]|^)OK([^\w])/g,"$1Okay$2");
-  				  afTotal++ 
+                    minTotal++
+                    debugger;
+            eventFixedTxt = eventFixedTxt.replace(/([\w,"“”’…;:][^\w])OK([^\w])/g,"$1okay$2").replace(/([^\w]|^)OK([^\w])/g,"$1Okay$2");
+            afTotal++ 
                  }
 
 
@@ -2285,18 +2285,21 @@ document.onkeydown = function(event){
         var which_url = prompt(
            "DOUBLE EXPORT SRT reports…\n\nPress Enter to try the template. Enter anything to go for CC."
            )
+        var which_lang = prompt("DOUBLE EXPORT SRT reports…\n\nPress Enter to go for English. Enter a language code to try that (es/fr/ru/etc).","en"
+          );
+        if(which_lang == "") {which_lang = "en"}
         if(which_url == "")
         {
            var template_url =
               "https://originator.backlot.netflix.com/api/request/timedText/" +
-              our_clq + '/' + pid + '/' + mid + '/en/TEMPLATE/PRIMARY/' +
+              our_clq + '/' + pid + '/' + mid + '/'+which_lang+'/TEMPLATE/PRIMARY/' +
               fps_ + '?source=ORIGINATOR'
         }
         else
         {
            var template_url =
               "https://originator.backlot.netflix.com/api/request/timedText/" +
-              our_clq + '/' + pid + '/' + mid + '/en/CC/PRIMARY/' + fps_ +
+              our_clq + '/' + pid + '/' + mid + '/'+which_lang+'/CC/PRIMARY/' + fps_ +
               '?source=ARCHIVE'
         }
         var targetFilename = srtName(fps_ + "_TRANSLATION")
@@ -2983,18 +2986,21 @@ document.onkeydown = function(event){
         var pid = json_obj["meta"]["packageId"]
         var which_url = prompt(
            "Press Enter to try the template. Enter anything to go for CC.")
+        var which_lang = prompt("DOUBLE EXPORT SRT reports…\n\nPress Enter to go for English. Enter a language code to try that (es/fr/ru/etc).","en"
+          );
+        if(which_lang == "") {which_lang = "en"}
         if(which_url == "")
         {
            var template_url =
               "https://originator.backlot.netflix.com/api/request/timedText/" +
-              our_clq + '/' + pid + '/' + mid + '/en/TEMPLATE/PRIMARY/' +
+              our_clq + '/' + pid + '/' + mid + '/'+which_lang+'/TEMPLATE/PRIMARY/' +
               fps_ + '?source=ORIGINATOR'
         }
         else
         {
            var template_url =
               "https://originator.backlot.netflix.com/api/request/timedText/" +
-              our_clq + '/' + pid + '/' + mid + '/en/CC/PRIMARY/' + fps_ +
+              our_clq + '/' + pid + '/' + mid + '/'+which_lang+'/CC/PRIMARY/' + fps_ +
               '?source=ARCHIVE'
         }
         var targetFilename = srtName(fps_ + "_TRANSLATION")
