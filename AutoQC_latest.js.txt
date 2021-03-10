@@ -1,4 +1,4 @@
-  var IMARUVERSION = "Jan-31-2021"
+  var IMARUVERSION = "Mar-10-2021"
   var menu = document.querySelector("div.popup")
   var itemButtons = document.getElementsByClassName("item-button")
   var dropdown = itemButtons[itemButtons.length -
@@ -1453,7 +1453,8 @@
                  {
                     switch (LANG)
                     {
-                    case "EN":
+                   //case "EN":
+                   case "NEVER":
                        eventIssue.push(
                           "<span class=\"minor_issue\">⚠️ Smart quotes recommended for EN: <b>“   ”   ’</b>"
                           );
