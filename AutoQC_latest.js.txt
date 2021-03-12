@@ -1,4 +1,4 @@
-  var IMARUVERSION = "Mar-10-2021"
+  var IMARUVERSION = "Mar-12-2021"
   var menu = document.querySelector("div.popup")
   var itemButtons = document.getElementsByClassName("item-button")
   var dropdown = itemButtons[itemButtons.length -
@@ -1395,7 +1395,7 @@
                  eventTxt = eventTxt.replace(/{.an.}/ig, "");
                  if(eventTxt.indexOf("\n") !== -1 && eventTxt.indexOf(
                        "\n-") == -1 && eventTxt.replace("\n", " ")
-                    .length <= line_limit && !eventIsFnInCaps && !
+                    .length <= line_limit && !eventIsFn && !
                     hasSafeBox)
                  {
                     eventIssue.push(
