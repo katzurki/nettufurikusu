@@ -1077,7 +1077,7 @@
                  }
                  if(Math.abs(distanceNext) < 2)
                  {
-                    var moveTo = Math.abs(distanceNext) - 2
+                    var moveTo = distanceNext - 2
                     var newFramesE = framesE + moveTo
                     var newTcf = frames2tcf(newFramesE)
                     var intTo = (moveTo > 0) ? "+" + moveTo : moveTo;
