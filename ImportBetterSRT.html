@@ -140,6 +140,7 @@ function fade(type, ms, el, remove = false) {
 var infer_fps = document.location.href.replace(/.+#FPS_/g,'').replace(/[^\d]/g,'').replace(/(^\d{2})/,'$1.')*1 //converts, in a crudely failsafe fashion, anything like FPS_23976 or FPS_2400 to a normal float
 console.log("Inferring FPS from:" + document.location.href + " and it is set to " + infer_fps + " (or not)");
 if(infer_fps.toString()=="NaN") {var fps=24.00} else {var fps = infer_fps}
+console.log("infer_fps" + infer_fps + " fps: " + fps);
 var event_counter = 0
 var new_fps = 0
 var initial_timecode = ''
@@ -186,13 +187,12 @@ function isInt(value) {
 function setFPS() {
     //var fpsInferredMaybe = fps.replace(/\.,_/g,'')
     var new_fps = prompt("Current FPS set to: " + fps +
-        "\nPress Enter to keep current FPS or enter new, e.g. 2500 or 2397 or 2997:",
-        )
-    if (new_fps === null) var new_fps = 2400
+        "\nPress Enter to keep current FPS or enter new, e.g. 2500 or 2397 or 2997:", fps)
     new_fps = new_fps.replace(".", "")
     new_fps = new_fps.replace(",", "")
     if (new_fps.length == 2) new_fps = new_fps + "00"
     new_fps = (new_fps.substr(0, 2) + "." + new_fps.substr(2)) * 1
+	debugger;
     if (new_fps !== fps) {
         fps = new_fps
         alert("FPS set to: " + fps)
