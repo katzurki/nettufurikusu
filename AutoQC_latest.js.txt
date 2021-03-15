@@ -81,10 +81,11 @@
      })()
   }
 
-  function imarunettuRemoveClutter(){
- 
-//  $(".Watermark").remove();
-//  $(".proxy-upgrade-notification").remove();
+  function imarunettuRemoveClutter(){ 
+var wm = document.getElementsByClassName("Watermark");
+try{wm[0].remove();} catch(e){}
+var wm = document.getElementsByClassName("proxy-upgrade-notification");
+try{wm[0].remove();} catch(e){}
 //the Dragon bookmarklet gratefully stolen from I forgot where
 (function() { var b = X = Y = T = L = 0; document.addEventListener("click", function(a) { a.preventDefault() }, !0); document.addEventListener("mousedown", c); document.addEventListener("touchstart", c); function c(a) { a.preventDefault(); a.target !== document.documentElement && a.target !== document.body && (b = Date.now(), a.target.setAttribute("data-drag", b), a.target.style.position = "relative", T = a.target.style.top.split("px")[0] || 0, L = a.target.style.left.split("px")[0] || 0); X = a.clientX || a.touches[0].clientX; Y = a.clientY || a.touches[0].clientY } document.addEventListener("mousemove", d); document.addEventListener("touchmove", d); function d(a) { if ("" !== b) { var e = document.querySelector('[data-drag="' + b + '"]'); e.style.top = parseInt(T) + parseInt((a.clientY || a.touches[0].clientY) - Y) + "px"; e.style.left = parseInt(L) + parseInt((a.clientX || a.touches[0].clientX) - X) + "px" } } document.addEventListener("mouseup", f); document.addEventListener("touchend", f); function f() { b = "" } document.addEventListener("mouseover", g); function g(a) { a.target.style.cursor = "default"; a.target.style.boxShadow = "inset lime 0 0 1px,lime 0 0 1px" } document.addEventListener("mouseout", h); function h(a) { a.target.style.cursor = a.target.style.boxShadow = "" }; })()
 }
@@ -3396,6 +3397,8 @@ document.onkeydown = function(event){
         if(btnid == "imarunettuRunAutoQC")
         {
            btntext = btntext + " for " + window.imarunettuLang
+           var taskBeenSaved = document.getElementsByClassName("bh-check_circle")[0] ? true : false;
+           if(!taskBeenSaved){ button.classList.add("disabled"); alert("Save the task to enable AutoQC (make sure the save icon is green).")} else {button.classList.remove("disabled");}
         }
         span.innerText = btntext
         button.onclick = function (event)
