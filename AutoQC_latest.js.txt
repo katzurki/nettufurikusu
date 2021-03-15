@@ -1,4 +1,4 @@
-  var IMARUVERSION = "Mar-12-2021"
+  var IMARUVERSION = "M15-21"
   var menu = document.querySelector("div.popup")
   var itemButtons = document.getElementsByClassName("item-button")
   var dropdown = itemButtons[itemButtons.length -
@@ -3371,7 +3371,7 @@ document.onkeydown = function(event){
         capture: true
      })
   }
-
+  
   function imarunettuAddButtonsToMenu(btnid, disabled = "")
   {
      var gonnaBeLast = false
@@ -3398,7 +3398,7 @@ document.onkeydown = function(event){
         {
            btntext = btntext + " for " + window.imarunettuLang
            var taskBeenSaved = document.getElementsByClassName("bh-check_circle")[0] ? true : false;
-           if(!taskBeenSaved){ button.classList.add("disabled"); alert("Save the task to enable AutoQC (make sure the save icon is green).")} else {button.classList.remove("disabled");}
+           if(!taskBeenSaved){ button.classList.add("disabled");} else {button.classList.remove("disabled");}
         }
         span.innerText = btntext
         button.onclick = function (event)
