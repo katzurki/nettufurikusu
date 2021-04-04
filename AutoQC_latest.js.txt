@@ -1,4 +1,4 @@
-  var IMARUVERSION = "M15-21"
+  var IMARUVERSION = "April 4, 2021"
   var menu = document.querySelector("div.popup")
   var itemButtons = document.getElementsByClassName("item-button")
   var dropdown = itemButtons[itemButtons.length -
@@ -669,7 +669,7 @@ try{wm[0].remove();} catch(e){}
                     "originator.backlot.netflix.com"))
               {
                  var lsJson = localStorage["clq:origination:" +
-                    our_clq]
+                    decodeURIComponent(our_clq)]
                  if(!lsJson)
                  {
                     alert("Timed text events not found in localStorage\nfor CLQ: " +
@@ -682,7 +682,7 @@ try{wm[0].remove();} catch(e){}
                  var json_obj = JSON.parse(lsJson)
                  var src = json_obj["events"]
                  var fps_ = json_obj["meta"]["fps"];
-                 var fps = fps_.split("_")[1] / 100
+                 var fps = fps_.split("_")[1] /  100
                  qcMeta.fps = fps
                  qcMeta.fps_ = fps_
               }
@@ -715,11 +715,14 @@ try{wm[0].remove();} catch(e){}
               var scTotal = 0
               var evTotal = 0
               var afTotal = 0
+              var frms = 1000 / fps
+              var fpsHalfSecond = Math.round(fps / 2)
+              
               if(typeof our_clq !== "object")
               {
                  var proposed_fps = prompt("Framerate set to: " +
                     fps +
-                    " fps.\nEnter custom FPS or press Enter to keep current"
+                    " fps. Gap/shot change set to: "+fpsHalfSecond+" frames.\nEnter custom FPS or press Enter to keep current"
                     );
                  if(proposed_fps)
                  {
@@ -732,7 +735,8 @@ try{wm[0].remove();} catch(e){}
                        " and real fps set to " + fps);
                  }
               }
-              var frms = 1000 / fps
+              fpsHalfSecond = Math.round(fps / 2)
+              console.log("Using " + fpsHalfSecond + " frames as target gap/shot change mark")
               if(document.location.href.includes(
                     "originator.backlot.netflix.com"))
               {
@@ -997,15 +1001,15 @@ try{wm[0].remove();} catch(e){}
                  var oldTcf = frames2tcf(framesE)
                  var scTcf = frames2tcf(sc)
                  var distanceNext = distance2
-                 if(isBetween(distance, 5, 11))
+                 if(isBetween(distance, 5, fpsHalfSecond-1))
                  {
-                    var moveTo = 12 - distance
+                    var moveTo = fpsHalfSecond - distance
                     var newFramesE = framesE + moveTo
                     var newTcf = frames2tcf(newFramesE)
                     var intTo = (moveTo > 0) ? "+" + moveTo : moveTo;
                     moveTo = moveToSigned(moveTo)
                     violation = '🎞 Move out-cue right ' + moveTo +
-                       ' to +12 frames after shot change<br><font style="color: #7DFDFE; font-family: monospace">[OUT-CUE: ' +
+                       ' to +'+fpsHalfSecond+' frames after shot change<br><font style="color: #7DFDFE; font-family: monospace">[OUT-CUE: ' +
                        oldTcf + ' ' + intTo + ' = ' + newTcf +
                        ']</font>'
                  }
@@ -1033,7 +1037,7 @@ try{wm[0].remove();} catch(e){}
                        oldTcf + ' ' + intTo + ' = ' + newTcf +
                        ']</font>'
                  }
-                 if(distanceNext > 2 && distanceNext < 12 &&
+                 if(distanceNext > 2 && distanceNext < fpsHalfSecond &&
                     distanceNext <= Math.abs(distance)
                     ) //fixes nasty, nasty situation!
                  {
@@ -1127,7 +1131,7 @@ try{wm[0].remove();} catch(e){}
                  var css_cs2 = '</span>';
                  var oldTcf = frames2tcf(framesE)
                  var scTcf = frames2tcf(sc)
-                 if(isBetween(distance, 1, 10))
+                 if(isBetween(distance, 1, fpsHalfSecond-2))
                  {
                     var moveTo = 0 - distance
                     var newFramesE = framesE + moveTo
@@ -1139,7 +1143,7 @@ try{wm[0].remove();} catch(e){}
                        oldTcf + ' ' + intTo + ' = ' + newTcf +
                        ']</font>'
                  }
-                 if(isBetween(distance, 11, 11))
+                 if(isBetween(distance, fpsHalfSecond-1, fpsHalfSecond-1))
                  {
                     var moveTo = 1
                     var newFramesE = framesE + moveTo
@@ -1147,11 +1151,11 @@ try{wm[0].remove();} catch(e){}
                     var intTo = (moveTo > 0) ? "+" + moveTo : moveTo;
                     moveTo = moveToSigned(moveTo)
                     violation = '🎞 Move in-cue right ' + moveTo +
-                       ' to put 12 frames after shot change<br><font style="color: #7FFFD4; font-family: monospace">[IN-CUE: ' +
+                       ' to put '+fpsHalfSecond+' frames after shot change<br><font style="color: #7FFFD4; font-family: monospace">[IN-CUE: ' +
                        oldTcf + ' ' + intTo + ' = ' + newTcf +
                        ']</font>'
                  }
-                 if(isBetween(distance, 10, 10))
+                 if(isBetween(distance, fpsHalfSecond-2, fpsHalfSecond-2))
                  {
                     var moveTo = 2
                     var newFramesE = framesE + moveTo
@@ -1159,19 +1163,19 @@ try{wm[0].remove();} catch(e){}
                     var intTo = (moveTo > 0) ? "+" + moveTo : moveTo;
                     moveTo = moveToSigned(moveTo)
                     violation = '🎞 Move in-cue right ' + moveTo +
-                       ' to +12 frames after shot change<br><font style="color: #7FFFD4; font-family: monospace">[IN-CUE: ' +
+                       ' to +'+fpsHalfSecond+' frames after shot change<br><font style="color: #7FFFD4; font-family: monospace">[IN-CUE: ' +
                        oldTcf + ' ' + intTo + ' = ' + newTcf +
                        ']</font>'
                  }
-                 if(isBetween(distance, -11, -5))
+                 if(isBetween(distance, (fpsHalfSecond-1)*-1, -5))
                  {
-                    var moveTo = -12 - distance
+                    var moveTo = fpsHalfSecond*-1 - distance
                     var newFramesE = framesE + moveTo
                     var newTcf = frames2tcf(newFramesE)
                     var intTo = (moveTo > 0) ? "+" + moveTo : moveTo;
                     moveTo = moveToSigned(moveTo)
                     violation = '🎞 Move in-cue left ' + moveTo +
-                       ' to -12 frames before shot change<br><font style="color: #7FFFD4; font-family: monospace">[IN-CUE: ' +
+                       ' to -'+fpsHalfSecond+' frames before shot change<br><font style="color: #7FFFD4; font-family: monospace">[IN-CUE: ' +
                        oldTcf + ' ' + intTo + ' = ' + newTcf +
                        ']</font>'
                  }
@@ -1340,8 +1344,8 @@ try{wm[0].remove();} catch(e){}
                  var cpsAttemptable = false
                  var bestWorstCPS = false
                  if(cps > normal_cps && cps < max_cps && scND -
-                    framesToFixCPS > 11 && distanceNextEvent -
-                    framesToFixCPS > 11 && framesToFixCPS < 12 && !
+                    framesToFixCPS > (fpsHalfSecond-1) && distanceNextEvent -
+                    framesToFixCPS > (fpsHalfSecond-1) && framesToFixCPS < fpsHalfSecond && !
                     eventIsFnInCaps)
                  {
                     cpsFixable = true
@@ -1351,12 +1355,12 @@ try{wm[0].remove();} catch(e){}
                     //+totalLength+"\nEND_TIMECODE_1: "+frames2tcf(end_frames+framesToFixCPS)+"\nEND_TIMECODE_2: "+
                     //frames2tcf(Math.round((start_time + duration_for_normal_cps)*fps))
                  }
-                 if(cps >= max_cps && scND - 12 > 11 &&
-                    distanceNextEvent - 12 > 11 && !eventIsFnInCaps)
+                 if(cps >= max_cps && scND - fpsHalfSecond > fpsHalfSecond-1 &&
+                    distanceNextEvent - fpsHalfSecond > fpsHalfSecond-1 && !eventIsFnInCaps)
                  {
                     cpsAttemptable = true
-                    framesToFixCPS = 12
-                    var plusDelta = 12 / fps
+                    framesToFixCPS = fpsHalfSecond
+                    var plusDelta = fpsHalfSecond / fps
                     bestWorstCPS = Math.round((totalLength / (delta +
                        plusDelta) * 1000)) / 1000
                  }
@@ -3394,12 +3398,14 @@ document.onkeydown = function(event){
         button.innerHTML = '<i class="bhicons"></i>'
         var span = document.createElement("span")
         span.className = "label"
+        var taskBeenSaved = document.getElementsByClassName("bh-check_circle")[0] ? true : false;
         if(btnid == "imarunettuRunAutoQC")
         {
            btntext = btntext + " for " + window.imarunettuLang
-           var taskBeenSaved = document.getElementsByClassName("bh-check_circle")[0] ? true : false;
-           if(!taskBeenSaved){ button.classList.add("disabled");} else {button.classList.remove("disabled");}
         }
+        if( btnid == "imarunettuRunAutoQC" || btnid == "imarunettuDoubleExportSRT" || btnid == "imarunettuBilingualExportHTML" ){
+        if(!taskBeenSaved){ button.classList.add("disabled");} else {button.classList.remove("disabled");}
+      }
         span.innerText = btntext
         button.onclick = function (event)
         {
