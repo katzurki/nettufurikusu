@@ -3404,7 +3404,7 @@ document.onkeydown = function(event){
            btntext = btntext + " for " + window.imarunettuLang
         }
         if( btnid == "imarunettuRunAutoQC" || btnid == "imarunettuDoubleExportSRT" || btnid == "imarunettuBilingualExportHTML" ){
-        if(!taskBeenSaved){ button.classList.add("disabled"); button.setAttribute("disabled", "disabled");} else {button.classList.remove("disabled"); button.removeAttrbute("disabled");}
+        if(!taskBeenSaved){ button.classList.add("disabled"); button.setAttribute("disabled", "");} else {button.classList.remove("disabled"); button.removeAttribute("disabled");}
       }
         span.innerText = btntext
         button.onclick = function (event)
