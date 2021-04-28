@@ -1,4 +1,4 @@
-  var IMARUVERSION = "April 4, 2021"
+  var IMARUVERSION = "April 28, 2021"
   var menu = document.querySelector("div.popup")
   var itemButtons = document.getElementsByClassName("item-button")
   var dropdown = itemButtons[itemButtons.length -
@@ -3395,7 +3395,7 @@ document.onkeydown = function(event){
         button.className = "icon-button mnfkbtn" + disabled
         button.id = btnid
         button.setAttribute("title", btntext)
-        button.innerHTML = '<i class="bhicons"></i>'
+        button.innerHTML = ''
         var span = document.createElement("span")
         span.className = "label"
         var taskBeenSaved = document.getElementsByClassName("bh-check_circle")[0] ? true : false;
@@ -3404,7 +3404,7 @@ document.onkeydown = function(event){
            btntext = btntext + " for " + window.imarunettuLang
         }
         if( btnid == "imarunettuRunAutoQC" || btnid == "imarunettuDoubleExportSRT" || btnid == "imarunettuBilingualExportHTML" ){
-        if(!taskBeenSaved){ button.classList.add("disabled");} else {button.classList.remove("disabled");}
+        if(!taskBeenSaved){ button.classList.add("disabled"); button.setAttribute("disabled", "disabled");} else {button.classList.remove("disabled"); button.removeAttrbute("disabled");}
       }
         span.innerText = btntext
         button.onclick = function (event)
