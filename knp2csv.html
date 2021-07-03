@@ -1,110 +1,130 @@
-<center><h3><a href="javascript:(function()%7Bvar%20clq%20%3D%20document.location.href.split(%22%3A%22)%5B3%5D%0Avar%20knpJsonLink%20%3D%20%22https%3A%2F%2Foriginator.backlot.netflix.com%2Fapi%2Fknp%2Fclq%3Aorigination%3A%22%2Bclq%0Avar%20LANG%20%3D%20%22zh-CN%22%0A%0Avar%20getJSON%20%3D%20async%20url%20%3D%3E%20%7B%0A%20%20try%20%7B%0A%20%20%20%20const%20response%20%3D%20await%20fetch(url)%3B%0A%20%20%20%20if(!response.ok)%0A%20%20%20%20%20%20%20%20throw%20new%20Error(response.statusText)%3B%0A%20%20%20%20const%20data%20%3D%20await%20response.json()%3B%20%0A%20%20%20%20return%20data%3B%0A%20%20%7D%20catch(error)%20%7B%0A%20%20%20%20return%20error%3B%0A%20%20%7D%0A%7D%0A%0Afunction%20srtName(suffix%20%3D%20%22%22)%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20var%20s%20%3D%20document.getElementsByClassName(%22cpe-page-menu-label%22)%5B0%5D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20.innerText%0A%20%20%20%20%20%20%20%20%20%20%20var%20srtName%20%3D%20(s.replace(%2F%5B%20%5D%2Fg%2C%20'_').replace(%2F%5B%5Ea-z0-9_%5D%2Fgi%2C%20'')%20%2B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20suffix%20%2B%20%22.csv%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20.trim()%0A%20%20%20%20%20%20%20%20%20%20%20if(!srtName)%20srtName%20%3D%20clq%20%2B%20%22_%22%20%2B%20suffix%20%2B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22.csv%22%0A%20%20%20%20%20%20%20%20%20%20%20return%20srtName%0A%20%20%20%20%20%20%20%20%7D%0Avar%20csvName%20%3D%20srtName()%0A%0Afunction%20denull(value)%20%7B%20%20if(!value)%20%7Breturn%20%22%22%7D%20else%20%7Breturn%20value.trim()%7D%20%20%7D%0A%0Avar%20majorEntities%20%3D%20%5B%22PERSON%22%2C%20%22LOCATION%22%2C%20%22ORGANIZATION%22%2C%20%22PHRASE%22%5D%0A%0Afunction%20arrayToCsv(data)%7B%0A%20%20return%20data.map(row%20%3D%3E%20row%0A%20%20%20%20.map(String)%20%20%2F%2F%20convert%20every%20value%20to%20String%0A%20%20%20%20.map(v%20%3D%3E%20v.replaceAll('%22'%2C%20'%22%22'))%20%20%2F%2F%20escape%20double%20colons%0A%20%20%20%20.map(v%20%3D%3E%20%60%22%24%7Bv%7D%22%60)%20%20%2F%2F%20quote%20it%0A%20%20%20%20.join('%2C')%20%20%2F%2F%20comma-separated%0A%20%20).join('%5Cr%5Cn')%3B%20%20%2F%2F%20rows%20starting%20on%20new%20lines%0A%7D%0A%0Avar%20oKnp%20%3D%20%7B%7D%0Avar%20finalArray%20%3D%20%5B%5D%0Avar%20header_2%20%3D%20%5B%20%22TYPE%22%2C%20%22TEMPLATE%20(EN)%22%2C%20%22NOTE%22%2C%20%22TARGET%20(%22%2BLANG%2B%22)%22%2C%20%22NOTE%20(%22%2BLANG%2B%22)%22%20%5D%0Avar%20header_3%20%3D%20%5B%20%22TYPE%22%2C%20%22ORIGINAL%22%2C%20%22TEMPLATE%20(EN)%22%2C%20%22NOTE%20(EN)%22%2C%20%22TARGET%20(%22%2BLANG%2B%22)%22%2C%20%22NOTE%20(%22%2BLANG%2B%22)%22%20%5D%0Avar%20tmpArray%20%3D%20%5B%5D%0AgetJSON(knpJsonLink).then(data%20%3D%3E%20%7B%0A%0AoKnp%20%3D%20data%0Aif(oKnp.srcLocale%20%3D%3D%20%22en%22)%20%7B%0AfinalArray.push(header_2)%0Afor(const%20Entity%20of%20majorEntities)%0A%09%7B%0Aif(%20typeof%20oKnp.mapKnpTermDTOs%5BEntity%5D%20!%3D%3D%20%22undefined%22%20)%20%7B%0AoKnp.mapKnpTermDTOs%5BEntity%5D.forEach((v)%3D%3E%7B%0Atry%7B%0AtmpArray.push(v.type%2C%20denull(v.srcValue.value)%2C%20denull(v.srcValue.note)%2C%20denull(v.localizedValues%5BLANG%5D.value)%2C%20denull(v.localizedValues%5BLANG%5D.note))%0AfinalArray.push(tmpArray)%3B%20tmpArray%20%3D%20%5B%5D%3B%0A%7Dcatch(e)%7B%7D%0A%7D)%0A%7D%0A%09%7D%0A%0AoKnp.titleDTOs.forEach((t)%3D%3E%7B%0Atry%20%7BtmpArray.push(t.type%2C%20t.srcValue.value%2C%20t.srcValue.note%2Ct.localizedValues%5BLANG%5D.value%2Ct.localizedValues%5BLANG%5D.note)%0AfinalArray.push(tmpArray)%3B%20tmpArray%20%3D%20%5B%5D%3B%7D%20catch(e)%7B%7D%0A%7D)%0A%0A%7D%20else%20%7B%0A%09var%20LANG_SRC%20%3D%20oKnp.srcLocale%0A%09finalArray.push(header_3)%0A%09for(const%20Entity%20of%20majorEntities)%0A%09%7B%0A%0A%09if(%20typeof%20oKnp.mapKnpTermDTOs%5BEntity%5D%20!%3D%3D%20%22undefined%22%20)%20%7B%0A%09oKnp.mapKnpTermDTOs%5BEntity%5D.forEach((v)%3D%3E%7B%0A%20%20%20%20try%20%7B%0A%09tmpArray.push(v.type%2C%20denull(v.srcValue.value)%2C%20denull(v.localizedValues%5B%22en%22%5D.value)%2C%20denull(v.localizedValues%5B%22en%22%5D.note)%2C%20denull(v.localizedValues%5BLANG%5D.value)%2C%20denull(v.localizedValues%5BLANG%5D.note))%0A%09finalArray.push(tmpArray)%3B%20tmpArray%20%3D%20%5B%5D%3B%7Dcatch(e)%7B%7D%0A%7D)%0A%7D%0A%09%7D%0A%0A%20%20%20%20for(g%3D0%3B%20g%3CoKnp.titleDTOs.length-1%3B%20g%2B%2B)%7B%0A%09%09try%7B%0A%09tmpArray.push(oKnp.titleDTOs%5Bg%5D.type%2C%20denull(oKnp.titleDTOs%5Bg%5D.srcValue.value)%2C%20denull(oKnp.titleDTOs%5Bg%5D.localizedValues%5B%22en%22%5D.value)%2Cdenull(oKnp.titleDTOs%5Bg%5D.localizedValues%5B%22en%22%5D.note)%2Cdenull(oKnp.titleDTOs%5Bg%5D.localizedValues%5BLANG%5D.value)%2Cdenull(oKnp.titleDTOs%5Bg%5D.localizedValues%5BLANG%5D.note))%0A%09finalArray.push(tmpArray)%3B%20tmpArray%20%3D%20%5B%5D%3B%7Dcatch(e)%7B%7D%0A%09%7D%0A%0A%0A%0A%7D%0Alet%20csv%20%3D%20arrayToCsv(finalArray)%0Avar%20universalBOM%20%3D%20%22%5CuFEFF%22%3B%0Avar%20a%20%3D%20window.document.createElement('a')%3B%0Aa.setAttribute('href'%2C%20'data%3Atext%2Fcsv%3B%20charset%3Dutf-8%2C'%20%2B%20encodeURIComponent(universalBOM%2Bcsv))%3B%0Aa.setAttribute('download'%2C%20csvName)%3B%0Awindow.document.body.appendChild(a)%3B%0Aa.click()%3B%0A%7D).catch(error%20%3D%3E%20%7B%0A%20%20console.error(error)%3B%0A%7D)%3B%7D)()%3B">Knp2Csv</a>
+<center><h3><a href="javascript:(function()%7Bvar%20clq%3Ddocument.location.href.split(%22%3A%22)%5B3%5D%2CknpJsonLink%3D%22https%3A%2F%2Foriginator.backlot.netflix.com%2Fapi%2Fknp%2Fclq%3Aorigination%3A%22%2Bclq%2CtaskTitle%3Ddocument.getElementsByClassName(%22cpe-page-menu-label%22)%5B0%5D.innerText%3BtaskTitle%3DtaskTitle.split(%22%2C%22)%3Bvar%20LANG%3DtaskTitle%5BtaskTitle.length-2%5D.trim()%3B%22zh-Hans%22%3D%3DLANG%26%26(LANG%3D%22zh-CN%22)%2C%22en%22%3D%3DLANG%26%26(LANG%3Dprompt(%22English%20is%20always%20included.%20Enter%20a%20different%20language%20code%3A%20ar%2C%20de%2C%20fr%2C%20ru%2C%20but%20pt-BR%20and%20zh-CN%22))%3Bvar%20getJSON%3Dasync%20a%3D%3E%7Btry%7Bconst%20b%3Dawait%20fetch(a)%3Bif(!b.ok)throw%20new%20Error(b.statusText)%3Bconst%20c%3Dawait%20b.json()%3Breturn%20c%7Dcatch(a)%7Breturn%20a%7D%7D%3Bfunction%20nameCsv(a%3D%22%22)%7Bvar%20b%3Ddocument.getElementsByClassName(%22cpe-page-menu-label%22)%5B0%5D.innerText%2Cc%3D%22KNP_%22%2B(b.replace(%2F%5B%20%5D%2Fg%2C%22_%22).replace(%2F%5B%5Ea-z0-9_%5D%2Fgi%2C%22%22)%2Ba%2B%22.csv%22).trim()%3Breturn%20c%7C%7C(c%3Dclq%2B%22_%22%2Ba%2B%22.csv%22)%2Cc%7Dvar%20csvName%3DnameCsv(%22_%22%2BLANG)%3Bfunction%20denull(a)%7Breturn%20a%3Fa.trim()%3A%22%22%7Dvar%20majorEntities%3D%5B%22PERSON%22%2C%22LOCATION%22%2C%22ORGANIZATION%22%2C%22PHRASE%22%5D%3Bfunction%20arrayToCsv(a)%7Breturn%20a.map(a%3D%3Ea.map(String).map(a%3D%3Ea.replaceAll(%22%5C%22%22%2C%22%5C%22%5C%22%22)).map(a%3D%3E%60%22%24%7Ba%7D%22%60).join(%22%2C%22)).join(%22%5Cr%5Cn%22)%7Dvar%20oKnp%3D%7B%7D%2CfinalArray%3D%5B%5D%2Cheader_2%3D%5B%22TYPE%22%2C%22TEMPLATE%20(EN)%22%2C%22NOTE%22%2C%22TARGET%20(%22%2BLANG%2B%22)%22%2C%22NOTE%20(%22%2BLANG%2B%22)%22%5D%2CtmpArray%3D%5B%5D%3BgetJSON(knpJsonLink).then(b%3D%3E%7Bif(oKnp%3Db%2C%22en%22%3D%3DoKnp.srcLocale)%7BfinalArray.push(header_2)%3Bfor(const%20a%20of%20majorEntities)%22undefined%22!%3Dtypeof%20oKnp.mapKnpTermDTOs%5Ba%5D%26%26oKnp.mapKnpTermDTOs%5Ba%5D.forEach(a%3D%3E%7Btry%7BtmpArray.push(a.type%2Cdenull(a.srcValue.value)%2Cdenull(a.srcValue.note)%2Cdenull(a.localizedValues%5BLANG%5D.value)%2Cdenull(a.localizedValues%5BLANG%5D.note))%2CfinalArray.push(tmpArray)%2CtmpArray%3D%5B%5D%7Dcatch(a)%7B%7D%7D)%3BoKnp.titleDTOs.forEach(a%3D%3E%7Btry%7BtmpArray.push(a.type%2Ca.srcValue.value%2Ca.srcValue.note%2Ca.localizedValues%5BLANG%5D.value%2Ca.localizedValues%5BLANG%5D.note)%2CfinalArray.push(tmpArray)%2CtmpArray%3D%5B%5D%7Dcatch(a)%7B%7D%7D)%7Delse%7Bvar%20c%3DoKnp.srcLocale%2Cd%3D%5B%22TYPE%22%2C%22SOURCE%20(%22%2Bc%2B%22)%22%2C%22TEMPLATE%20(EN)%22%2C%22NOTE%20(EN)%22%2C%22TARGET%20(%22%2BLANG%2B%22)%22%2C%22NOTE%20(%22%2BLANG%2B%22)%22%5D%3BfinalArray.push(d)%3Bfor(const%20a%20of%20majorEntities)%22undefined%22!%3Dtypeof%20oKnp.mapKnpTermDTOs%5Ba%5D%26%26oKnp.mapKnpTermDTOs%5Ba%5D.forEach(a%3D%3E%7Btry%7BtmpArray.push(a.type%2Cdenull(a.srcValue.value)%2Cdenull(a.localizedValues.en.value)%2Cdenull(a.localizedValues.en.note)%2Cdenull(a.localizedValues%5BLANG%5D.value)%2Cdenull(a.localizedValues%5BLANG%5D.note))%2CfinalArray.push(tmpArray)%2CtmpArray%3D%5B%5D%7Dcatch(a)%7B%7D%7D)%3Bfor(g%3D0%3Bg%3CoKnp.titleDTOs.length-1%3Bg%2B%2B)try%7BtmpArray.push(oKnp.titleDTOs%5Bg%5D.type%2Cdenull(oKnp.titleDTOs%5Bg%5D.srcValue.value)%2Cdenull(oKnp.titleDTOs%5Bg%5D.localizedValues.en.value)%2Cdenull(oKnp.titleDTOs%5Bg%5D.localizedValues.en.note)%2Cdenull(oKnp.titleDTOs%5Bg%5D.localizedValues%5BLANG%5D.value)%2Cdenull(oKnp.titleDTOs%5Bg%5D.localizedValues%5BLANG%5D.note))%2CfinalArray.push(tmpArray)%2CtmpArray%3D%5B%5D%7Dcatch(a)%7B%7D%7Dlet%20e%3DarrayToCsv(finalArray)%3Bvar%20f%3Dwindow.document.createElement(%22a%22)%3Bf.setAttribute(%22href%22%2C%22data%3Atext%2Fcsv%3B%20charset%3Dutf-8%2C%22%2BencodeURIComponent(%22%5CuFEFF%22%2Be))%2Cf.setAttribute(%22download%22%2CcsvName)%2Cwindow.document.body.appendChild(f)%2Cf.click()%7D).catch(a%3D%3E%7Bconsole.error(a)%7D)%3B%7D)()%3B">Knp2Csv</a>
   
   
 <br><hr>  Source:
   </center><br><hr>
   <pre>  
-	var clq = document.location.href.split(":")[3]
-var knpJsonLink = "https://originator.backlot.netflix.com/api/knp/clq:origination:"+clq
-var LANG = "zh-CN"
-
-var getJSON = async url => {
-  try {
-    const response = await fetch(url);
-    if(!response.ok)
-        throw new Error(response.statusText);
-    const data = await response.json(); 
-    return data;
-  } catch(error) {
-    return error;
-  }
-}
-
-function srtName(suffix = "")
-        {
-           var s = document.getElementsByClassName("cpe-page-menu-label")[0]
-              .innerText
-           var srtName = (s.replace(/[ ]/g, '_').replace(/[^a-z0-9_]/gi, '') +
-                 suffix + ".csv"
-                 )
-              .trim()
-           if(!srtName) srtName = clq + "_" + suffix +
-              ".csv"
-           return srtName
-        }
-var csvName = srtName()
-
-function denull(value) {  if(!value) {return ""} else {return value.trim()}  }
-
-var majorEntities = ["PERSON", "LOCATION", "ORGANIZATION", "PHRASE"]
-
-function arrayToCsv(data){
-  return data.map(row => row
-    .map(String)  // convert every value to String
-    .map(v => v.replaceAll('"', '""'))  // escape double colons
-    .map(v => `"${v}"`)  // quote it
-    .join(',')  // comma-separated
-  ).join('\r\n');  // rows starting on new lines
-}
-
-var oKnp = {}
-var finalArray = []
-var header_2 = [ "TYPE", "TEMPLATE (EN)", "NOTE", "TARGET ("+LANG+")", "NOTE ("+LANG+")" ]
-var header_3 = [ "TYPE", "ORIGINAL", "TEMPLATE (EN)", "NOTE (EN)", "TARGET ("+LANG+")", "NOTE ("+LANG+")" ]
-var tmpArray = []
-getJSON(knpJsonLink).then(data => {
-
-oKnp = data
-if(oKnp.srcLocale == "en") {
-finalArray.push(header_2)
-for(const Entity of majorEntities)
-	{
-if( typeof oKnp.mapKnpTermDTOs[Entity] !== "undefined" ) {
-oKnp.mapKnpTermDTOs[Entity].forEach((v)=>{
-try{
-tmpArray.push(v.type, denull(v.srcValue.value), denull(v.srcValue.note), denull(v.localizedValues[LANG].value), denull(v.localizedValues[LANG].note))
-finalArray.push(tmpArray); tmpArray = [];
-}catch(e){}
-})
-}
-	}
-
-oKnp.titleDTOs.forEach((t)=>{
-try {tmpArray.push(t.type, t.srcValue.value, t.srcValue.note,t.localizedValues[LANG].value,t.localizedValues[LANG].note)
-finalArray.push(tmpArray); tmpArray = [];} catch(e){}
-})
-
-} else {
-	var LANG_SRC = oKnp.srcLocale
-	finalArray.push(header_3)
-	for(const Entity of majorEntities)
-	{
-
-	if( typeof oKnp.mapKnpTermDTOs[Entity] !== "undefined" ) {
-	oKnp.mapKnpTermDTOs[Entity].forEach((v)=>{
-    try {
-	tmpArray.push(v.type, denull(v.srcValue.value), denull(v.localizedValues["en"].value), denull(v.localizedValues["en"].note), denull(v.localizedValues[LANG].value), denull(v.localizedValues[LANG].note))
-	finalArray.push(tmpArray); tmpArray = [];}catch(e){}
-})
-}
-	}
-
-    for(g=0; g<oKnp.titleDTOs.length-1; g++){
-		try{
-	tmpArray.push(oKnp.titleDTOs[g].type, denull(oKnp.titleDTOs[g].srcValue.value), denull(oKnp.titleDTOs[g].localizedValues["en"].value),denull(oKnp.titleDTOs[g].localizedValues["en"].note),denull(oKnp.titleDTOs[g].localizedValues[LANG].value),denull(oKnp.titleDTOs[g].localizedValues[LANG].note))
-	finalArray.push(tmpArray); tmpArray = [];}catch(e){}
+  	var clq = document.location.href.split(":")[3]
+	var knpJsonLink = "https://originator.backlot.netflix.com/api/knp/clq:origination:" + clq
+	var taskTitle = document.getElementsByClassName("cpe-page-menu-label")[0].innerText
+	taskTitle = taskTitle.split(",")
+	var LANG = taskTitle[taskTitle.length - 2].trim()
+	if (LANG == "zh-Hans") {
+	    LANG = "zh-CN"
+	} //special case
+	if (LANG == "en") {
+	    LANG = prompt("English is always included. Enter a different language code: ar, de, fr, ru, but pt-BR and zh-CN");
 	}
 
 
+	var getJSON = async url => {
+	    try {
+	        const response = await fetch(url);
+	        if (!response.ok)
+	            throw new Error(response.statusText);
+	        const data = await response.json();
+	        return data;
+	    } catch (error) {
+	        return error;
+	    }
+	}
 
-}
-let csv = arrayToCsv(finalArray)
-var universalBOM = "\uFEFF";
-var a = window.document.createElement('a');
-a.setAttribute('href', 'data:text/csv; charset=utf-8,' + encodeURIComponent(universalBOM+csv));
-a.setAttribute('download', csvName);
-window.document.body.appendChild(a);
-a.click();
-}).catch(error => {
-  console.error(error);
-});
+	function nameCsv(suffix = "") {
+	    var s = document.getElementsByClassName("cpe-page-menu-label")[0]
+	        .innerText
+	    var srtName = "KNP_" + (s.replace(/[ ]/g, '_').replace(/[^a-z0-9_]/gi, '') +
+	            suffix + ".csv"
+	        )
+	        .trim()
+	    if (!srtName) srtName = clq + "_" + suffix +
+	        ".csv"
+	    return srtName
+	}
+	var csvName = nameCsv("_" + LANG)
+
+	function denull(value) {
+	    if (!value) {
+	        return ""
+	    } else {
+	        return value.trim()
+	    }
+	}
+
+	var majorEntities = ["PERSON", "LOCATION", "ORGANIZATION", "PHRASE"]
+
+	function arrayToCsv(data) {
+	    return data.map(row => row
+	        .map(String)
+	        .map(v => v.replaceAll('"', '""'))
+	        .map(v => `"${v}"`)
+	        .join(',')
+	    ).join('\r\n');
+	}
+
+	var oKnp = {}
+	var finalArray = []
+	var header_2 = ["TYPE", "TEMPLATE (EN)", "NOTE", "TARGET (" + LANG + ")", "NOTE (" + LANG + ")"]
+	var tmpArray = []
+	getJSON(knpJsonLink).then(data => {
+
+	    oKnp = data
+	    if (oKnp.srcLocale == "en") {
+	        finalArray.push(header_2)
+	        for (const Entity of majorEntities) {
+	            if (typeof oKnp.mapKnpTermDTOs[Entity] !== "undefined") {
+	                oKnp.mapKnpTermDTOs[Entity].forEach((v) => {
+	                    try {
+	                        tmpArray.push(v.type, denull(v.srcValue.value), denull(v.srcValue.note), denull(v.localizedValues[LANG].value), denull(v.localizedValues[LANG].note))
+	                        finalArray.push(tmpArray);
+	                        tmpArray = [];
+	                    } catch (e) {}
+	                })
+	            }
+	        }
+
+	        oKnp.titleDTOs.forEach((t) => {
+	            try {
+	                tmpArray.push(t.type, t.srcValue.value, t.srcValue.note, t.localizedValues[LANG].value, t.localizedValues[LANG].note)
+	                finalArray.push(tmpArray);
+	                tmpArray = [];
+	            } catch (e) {}
+	        })
+
+	    } else {
+	        var LANG_SRC = oKnp.srcLocale
+	        var header_3 = ["TYPE", "SOURCE (" + LANG_SRC + ")", "TEMPLATE (EN)", "NOTE (EN)", "TARGET (" + LANG + ")", "NOTE (" + LANG + ")"]
+	        finalArray.push(header_3)
+	        for (const Entity of majorEntities) {
+
+	            if (typeof oKnp.mapKnpTermDTOs[Entity] !== "undefined") {
+	                oKnp.mapKnpTermDTOs[Entity].forEach((v) => {
+	                    try {
+	                        tmpArray.push(v.type, denull(v.srcValue.value), denull(v.localizedValues["en"].value), denull(v.localizedValues["en"].note), denull(v.localizedValues[LANG].value), denull(v.localizedValues[LANG].note))
+	                        finalArray.push(tmpArray);
+	                        tmpArray = [];
+	                    } catch (e) {}
+	                })
+	            }
+	        }
+
+	        for (g = 0; g < oKnp.titleDTOs.length - 1; g++) {
+	            try {
+	                tmpArray.push(oKnp.titleDTOs[g].type, denull(oKnp.titleDTOs[g].srcValue.value), denull(oKnp.titleDTOs[g].localizedValues["en"].value), denull(oKnp.titleDTOs[g].localizedValues["en"].note), denull(oKnp.titleDTOs[g].localizedValues[LANG].value), denull(oKnp.titleDTOs[g].localizedValues[LANG].note))
+	                finalArray.push(tmpArray);
+	                tmpArray = [];
+	            } catch (e) {}
+	        }
+
+
+
+	    }
+	    let csv = arrayToCsv(finalArray)
+	    var universalBOM = "\uFEFF";
+	    var a = window.document.createElement('a');
+	    a.setAttribute('href', 'data:text/csv; charset=utf-8,' + encodeURIComponent(universalBOM + csv));
+	    a.setAttribute('download', csvName);
+	    window.document.body.appendChild(a);
+	    a.click();
+	}).catch(error => {
+	    console.error(error);
+	});
