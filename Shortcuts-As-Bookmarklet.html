@@ -132,15 +132,22 @@ var h = document.location.href.indexOf("#")
 var jsonPayload = "No shortcuts config found, please try again.";
 h > 0 && (jsonPayload = (longQuery.substr(h+1)))
 !jsonPayload && console.log("No hashtag in query.")
+jsonPurePayload = atob(jsonPayload);
+prettyJsonPayload = JSON.stringify(JSON.parse(jsonPurePayload),null,2)
 
 
-prettyJsonPayload = JSON.stringify(JSON.parse(atob(decodeURIComponent(jsonPayload))),null,2)
-
+var bookmarkletStub = `{localStorage.setItem("originator.shortcuts.bindings",'JSONPAYLOADPLACEHOLDER');setTimeout(function(){location.reload();}, 2000);}`
+var bookmarkletReady = "javascript:(function()" + encodeURIComponent(bookmarkletStub.replace("JSONPAYLOADPLACEHOLDER",jsonPurePayload)) +")()";
+	
 window.onload = function(){var txtArea = document.getElementById("JSONDisplay")
 txtArea.value = prettyJsonPayload
 txtArea.readOnly = true
 txtArea.disabled = true
 txtArea.style.color = "gold"
+var a = document.createElement("a");
+a.text = "My Saved Shortcuts"
+a.href = bookmarkletReady;
+txtArea.appendChild(a);
 }
 </script>
 
@@ -152,7 +159,9 @@ txtArea.style.color = "gold"
 			</center>
 			<center>
 	<textarea style="border: 2px solid; color: yellow; background-color: black;" placeholder="" cols="60" rows="35" id="JSONDisplay" name="srtSource">
-</textarea><br><button style="background-color: #555555;" onclick="srtPrepare()"><b>Click, ⏎, ^+C</b></button>
+</textarea><br>
+<a href=
+<button id="validBookmarklet" style="background-color: #555555;" onclick="srtPrepare()"><b>Click, ⏎, ^+C</b></button>
 <div >
 	<pre>
 <b>INSTRUCTIONS:</b>
