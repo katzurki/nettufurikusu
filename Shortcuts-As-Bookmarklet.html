@@ -1,0 +1,183 @@
+
+
+
+<head>
+	        <title>Save Netflix Originator Shortcuts</title>
+<meta charset="utf-8">
+<meta property="og:type"            content="article" /> 
+<meta property="og:url"             content="https://katzurki.github.io/nettufurikusu/shortcuts2bookmarklet.html" /> 
+<meta property="og:title"           content="Keyboard shortcuts export to bookmarklet." /> 
+<meta property="og:description"    content="https://katzurki.github.io/nettufurikusu" />
+	<style>
+		srt-html * {
+  color: #eeeeee !important;
+  background-color: #292929 !important;
+}
+
+img, video {z-index: 1}
+* {border-color: #555555 !important}
+cite, cite * {color: #029833 !important}
+:link, :link * {color: #00AAEE !important}
+input, textarea {background-color: #333333 !important}
+a {background-color: rgba(255, 255, 255, 0.01) !important}
+:visited, :visited * {color: rgb(211, 138, 138) !important}
+html, html::before, body, body::before, input, select, button {background-image: none !important}
+
+video {
+  background-color: transparent !important;
+}
+	
+	
+	
+#page-wrap {
+     width: 900px;
+     margin: 0 auto;
+}
+
+a.btn {
+	background-color: #e3e3e3;
+	border-color: rgba(0,0,0,0.5);
+	display: inline-block;
+	color: #000;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 12px;
+	padding: 10px 30px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 2px solid rgba(0,0,0,0.3);
+	border-bottom-width: 3px;
+}
+	a.btn:active {
+		background-color: #CCC;
+		border-color: rgba(0,0,0,0.9);
+	}
+
+/* blue button */
+
+
+div.text,
+#content,
+li[lang=ru] {
+  font: Verdana, Tahoma;
+  background: url('hatch.png') /* wtf? */;  color: #CACACA !important;
+  width: 40%;
+}
+ 
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+        /* Internet Explorer 5.5+ */
+}
+
+	
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  body:first-of-type pre::after {
+    content: '' attr(class);
+  }
+}
+
+
+div.text,
+#content,
+
+body {
+  text-align: center;
+  background-color: #262626;
+ }
+
+#page-wrap {
+  text-align: left;
+  width: 800px;
+  margin: 0 auto;
+     
+}
+
+</style>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+console.log("Initialize setter.")
+
+function fade(type, ms, el, remove = false) {
+    var isIn = type === 'in',
+        opacity = isIn ? 0 : 1,
+        interval = 50,
+        duration = ms,
+        gap = interval / duration
+
+    if (isIn) {
+        el.style.display = 'inline'
+        el.style.opacity = opacity
+    }
+
+    function func() {
+        opacity = isIn ? opacity + gap : opacity - gap
+        el.style.opacity = opacity
+
+        if (opacity <= 0) { remove ? el.remove() : el.style.display = 'none' }
+        if (opacity <= 0 || opacity >= 1) window.clearInterval(fading)
+    }
+
+    var fading = window.setInterval(func, interval)
+}
+
+
+var longQuery = window.location.href
+var h = document.location.href.indexOf("#")
+var jsonPayload = "No shortcuts config found, please try again.";
+h > 0 && (jsonPayload = (longQuery.substr(h+1)))
+!jsonPayload && console.log("No hashtag in query.")
+
+
+prettyJsonPayload = JSON.stringify(JSON.parse(atob(decodeURIComponent(jsonPayload))),null,2)
+
+window.onload = function(){var txtArea = document.getElementById("JSONDisplay")
+txtArea.value = prettyJsonPayload
+txtArea.readOnly = true
+txtArea.disabled = true
+txtArea.style.color = "gold"
+}
+</script>
+
+</head>
+<body>
+	<center>
+		<div class="srt-html">
+		<font color="silver"><b><h2><pre>These are your current settings for shortcuts:</pre></h2></b>
+			</center>
+			<center>
+	<textarea style="border: 2px solid; color: yellow; background-color: black;" placeholder="" cols="60" rows="35" id="JSONDisplay" name="srtSource">
+</textarea><br><button style="background-color: #555555;" onclick="srtPrepare()"><b>Click, ⏎, ^+C</b></button>
+<div >
+	<pre>
+<b>INSTRUCTIONS:</b>
+
+1. Your SRT may contain the following tags:<br><b>&lt;i&gt;&lt;/i&gt; for italics (multiple per event is OK),
+	<br><b>{\an8}</b> in the beginning of an event to denote placement on top of screen<br>
+the FN tag as an unbroken sequence of &lt;b&gt;&lt;/b&gt; to denote that this event is an Originator FN.</span>
+
+This is a valid sub:
+</>
+<span style="border: 1px; font-family: monospace; text-align: left;">1
+00:00:01,250 --> 00:00:02,999
+Said the classic: &lt;i&gt;We had 2 bags of grass,
+75 pellets of mescaline, 5 sheets of acid…&lt;/i&gt;&lt;b&gt;&lt;/b&gt;
+</span>
+
+It will import as an FN with italics.
+
+2. Click the button; this will convert SRT events to Originator events, unless there is an error.
+
+3. Press <b>Ctrl+C</b> (Windows) or <b>Cmd+C</b> (Mac) to copy the Originator events into the clipboard.
+
+4. In the Originator there must be at least one empty event. It must be outlined in blue for the paste functionality to work.
+Position your slider on the exact in-cue frame of the first event of your SRT file and press <b>Ctrl+V (Cmd+V)</b>.
+
+5. Tip: When pasting events from this tool into the Originator put Chrome in Offline mode so the Originator won't save a funky paste to its servers.
+Review the pasted subtitles and if everything looks okay, enable internet access back. If not, simply reload, and your task won't be affected.
+
