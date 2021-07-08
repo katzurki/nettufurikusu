@@ -127,11 +127,16 @@ function fade(type, ms, el, remove = false) {
 }
 
 
-var longQuery = window.location.href
-var h = document.location.href.indexOf("#")
-var jsonPayload = "No shortcuts config found, please try again.";
-h > 0 && (jsonPayload = (longQuery.substr(h+1)))
+var longQuery = window.location.href.split("#");
+var jsonPayload = JSON.parse(atob(longQuery[1]));
+var profileName = longQuery[2].split("@")[0].trim();
 !jsonPayload && console.log("No hashtag in query.")
+!profileName && console.log("No name set in query after second hashtag.")
+var ua = window.navigator.userAgent.toLowerCase();
+var os = ua.includes("macintosh") && "mac" || ua.includes("linux") && "linux" || ua.includes("windows") && "windows"
+var objectSettings = jsonPayload.schema.values;
+	
+var ua = window.navigator
 jsonPurePayload = atob(jsonPayload);
 prettyJsonPayload = JSON.stringify(JSON.parse(jsonPurePayload),null,2)
 
