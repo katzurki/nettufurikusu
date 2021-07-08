@@ -135,9 +135,9 @@ var jsonPayload = longQuery.substr(h+1)
 var ua = window.navigator.userAgent.toLowerCase();
 var os = ua.includes("macintosh") && "osx" || ua.includes("linux") && "linux" || ua.includes("windows") && "windows"
 var profileName = jsonPayload.replace(/:.+/gi,"")
-jsonPayload = atob(jsonPayload.replace(/.+?:/gi,""))
-listForUser = JSON.parse(jsonPayload)["schema"];
-tmpAr.concat(listForUser[0]["values"],listForUser[1]["values"],listForUser[2]["values"],listForUser[3]["values"])
+jsonPayload = atob(jsonPayload.replace(/^.+?:/g,""))
+var listForUser = JSON.parse(jsonPayload)["schema"];
+tmpAr = tmpAr.concat(listForUser[0]["values"],listForUser[1]["values"],listForUser[2]["values"],listForUser[3]["values"])
 flat=[]
 for(i=0; i<tmpAr.length; i++){
 var action = tmpAr[i]["name"]
@@ -147,8 +147,12 @@ flat.push({action, shortcut});
 var listOfShortcuts = JSON.stringify(flat.sort(function(e,r) {  return r["shortcut"].length - e["shortcut"].length  } ),undefined,3)
 
 
-var bookmarkletStub = `{localStorage.setItem("originator.shortcuts.bindings",'JSONPAYLOADPLACEHOLDER');setTimeout(function(){location.reload();}, 2000);}`
-var bookmarkletReady = "javascript:(function()" + encodeURIComponent(bookmarkletStub.replace("JSONPAYLOADPLACEHOLDER",jsonPayload)) +")()";
+var bookmarkletStub = `
+{localStorage.setItem("originator.shortcuts.bindings",'JSONPAYLOADPLACEHOLDER');setTimeout(function(){location.reload();},2000)}
+`
+var bookmarkletReady = encodeURIComponent(bookmarkletStub.replace("JSONPAYLOADPLACEHOLDER",jsonPayload))
+	
+	+")()";
 	
 window.onload = function(){var txtArea = document.getElementById("JSONDisplay")
 txtArea.value = listOfShortcuts
