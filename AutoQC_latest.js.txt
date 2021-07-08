@@ -1,4 +1,4 @@
-var IMARUVERSION = "July 7, 2021"
+var IMARUVERSION = "July 8, 2021"
 
 if (window.location.hostname == "localization-lucid.netflix.com") {
     imarunettuKNP2CSV()
@@ -82,7 +82,8 @@ if (window.location.hostname == "localization-lucid.netflix.com") {
         (function(){
         var currentSettings = localStorage.getItem("originator.shortcuts.bindings");
         if(typeof currentSettings !== "undefined"){
-            var url = 'https://katzurki.github.io/nettufurikusu/Shortcuts-As-Bookmarklet.html#' + btoa(currentSettings);
+            var userName = document.getElementsByClassName("username")[0].textContent.replace(/@.+/gi,":")
+            var url = 'https://katzurki.github.io/nettufurikusu/Shortcuts-As-Bookmarklet.html#' + userName + btoa(currentSettings);
             window.open(url) } else {alert("CurrentSettings problem." + typeof currentSettings)}
     })()
 }
