@@ -127,10 +127,15 @@ function fade(type, ms, el, remove = false) {
 }
 
 
-var longQuery = window.location.href.split("#");
-var jsonPayload = JSON.parse(atob(longQuery[1]));
+	
+var longQuery = window.location.href
+var h = document.location.href.indexOf("#")
+var jsonPayload = longQuery.substr(h+1)
 var ua = window.navigator.userAgent.toLowerCase();
 var os = ua.includes("macintosh") && "mac" || ua.includes("linux") && "linux" || ua.includes("windows") && "windows"
+var profileName = jsonPayload.replace(/:.+/gi,"")
+jsonPayload = jsonPayload.replace(/.+?:/gi,"")
+jsonPayload = JSON.parse(atob(jsonPayload))["schema"];
 debugger
 var filtered = JSON.stringify(jsonPayload["schema"],["name","shortcuts"], 2)
 var profileName = longQuery[2].split("@")[0].trim();
