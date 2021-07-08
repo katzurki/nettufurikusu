@@ -129,27 +129,28 @@ function fade(type, ms, el, remove = false) {
 
 	
 var longQuery = window.location.href
+var flat = {}
+var tmpAr = []
+var today = Date().replace(/ \d{2}:.+/gi,"").substr(4).replace(/ /gi,"-")
 var h = document.location.href.indexOf("#")
 var jsonPayload = longQuery.substr(h+1)
 var ua = window.navigator.userAgent.toLowerCase();
-var os = ua.includes("macintosh") && "mac" || ua.includes("linux") && "linux" || ua.includes("windows") && "windows"
+var os = ua.includes("macintosh") && "osx" || ua.includes("linux") && "linux" || ua.includes("windows") && "windows"
 var profileName = jsonPayload.replace(/:.+/gi,"")
-jsonPayload = jsonPayload.replace(/.+?:/gi,"")
-jsonPayload = JSON.parse(atob(jsonPayload))["schema"];
-debugger
-var filtered = JSON.stringify(jsonPayload["schema"],["name","shortcuts"], 2)
-var profileName = longQuery[2].split("@")[0].trim();
-!jsonPayload && console.log("No hashtag in query.")
-!profileName && console.log("No name set in query after second hashtag.")
-var concatt = jsonPayload["schema"][0]["values"];
-	
-var ua = window.navigator
-jsonPurePayload = atob(jsonPayload);
-prettyJsonPayload = JSON.stringify(JSON.parse(jsonPurePayload),null,2)
+jsonPayload = atob(jsonPayload.replace(/.+?:/gi,""))
+listForUser = JSON.parse(jsonPayload)["schema"];
+tmpAr.concat(listForUser[0]["values"],listForUser[1]["values"],listForUser[2]["values"],listForUser[3]["values"])
+flat=[]
+for(i=0; i<tmpAr.length; i++){
+var action = tmpAr[i]["name"]
+var shortcut = tmpAr[i]["shortcuts"][os].replace(/Key|Digit/gi,"").replace(/\+/gi," + ")
+flat.push({action, shortcut});
+}
+var listOfShortcuts = JSON.stringify(flat.sort(function(e,r) {  return r["shortcut"].length - e["shortcut"].length  } ),undefined,3)
 
 
 var bookmarkletStub = `{localStorage.setItem("originator.shortcuts.bindings",'JSONPAYLOADPLACEHOLDER');setTimeout(function(){location.reload();}, 2000);}`
-var bookmarkletReady = "javascript:(function()" + encodeURIComponent(bookmarkletStub.replace("JSONPAYLOADPLACEHOLDER",jsonPurePayload)) +")()";
+var bookmarkletReady = "javascript:(function()" + encodeURIComponent(bookmarkletStub.replace("JSONPAYLOADPLACEHOLDER",jsonPayload)) +")()";
 	
 window.onload = function(){var txtArea = document.getElementById("JSONDisplay")
 txtArea.value = prettyJsonPayload
@@ -158,7 +159,7 @@ txtArea.disabled = true
 txtArea.style.color = "gold"
 var placeHere = document.getElementById("validBookmarklet");
 var a = document.createElement("a");
-a.text = "My Saved Shortcuts"
+a.text = "Restore "+profileName+"'s Shortcuts from "+today
 a.href = bookmarkletReady;
 placeHere.appendChild(a);
 }
