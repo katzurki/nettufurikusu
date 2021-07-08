@@ -131,7 +131,7 @@ var longQuery = window.location.href.split("#");
 var jsonPayload = JSON.parse(atob(longQuery[1]));
 var ua = window.navigator.userAgent.toLowerCase();
 var os = ua.includes("macintosh") && "mac" || ua.includes("linux") && "linux" || ua.includes("windows") && "windows"
-
+debugger
 var filtered = JSON.stringify(jsonPayload["schema"],["name","shortcuts"], 2)
 var profileName = longQuery[2].split("@")[0].trim();
 !jsonPayload && console.log("No hashtag in query.")
