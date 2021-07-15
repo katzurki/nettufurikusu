@@ -3,6 +3,29 @@
 <!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on https://github.com/jonrohan -->
 <html lang="en-US">
 <head>
+  <style>
+  .alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+    font-weight: bold;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+  </style>
   <script>
   function imaruIframeLoaded(){
 var autoQCSrc = document.getElementById("autoQCFullLatest").contentWindow.document.body.innerText;
@@ -44,6 +67,11 @@ document.getElementById("mainBookmarklet").style.opacity="1";
 
 <body>
 
+  <div class="alert">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+  <strong>Attention!</strong> Development has moved to the <a href="https://chrome.google.com/webstore/detail/originator-autoqc-etc/fmdlmdfceiaaljfpdkbpfhoppcklkopo">Chrome extension</a>, perhaps install it?
+</div>
+  
   <div class="wrapper">
     <header>
       <h1 class="title">ま̼るね̼っ̼つ̼ふ̼りく̼す̼</h1>
