@@ -1,4 +1,4 @@
-*Please note that as of August 2021 the recommended way to use this product is to install it as [an extension from the Chrome Web Store](https://chrome.google.com/webstore/detail/originator-autoqc-etc/fmdlmdfceiaaljfpdkbpfhoppcklkopo "Originator AutoQC, Etc."), called _Originator AutoQC, Etc._*
+*Please note that as of August 2021 the recommended way to use this product is to install it as [an extension from the Chrome Web Store](https://chrome.google.com/webstore/detail/originator-autoqc-etc/fmdlmdfceiaaljfpdkbpfhoppcklkopo "Originator AutoQC, Etc."), called* Originator AutoQC, Etc.
 
 *(Chrome extension only, not the bookmarklets) For support, bug reports and feedback please contact me at katzurki@gmail.com*
 
