@@ -92,10 +92,14 @@ function shapeLabel(key, {
 
 function finalCleanup(){
   for (const t of document.querySelectorAll('span.note-field')) t.textContent += ':';
-  for (const t of document.querySelectorAll('span.note-value')) if (!t.textContent.includes('{')) t.textContent = t.textContent.replace(/^"|"$/g,'');
   for (const t of document.querySelectorAll('span.note-expandable')) t.click();
+  for (const t of document.querySelectorAll('span.note-value')) 
+{if (!t.textContent.includes('}')) t.textContent = t.textContent.replace(/^"|"$/g,'');if (isTimeZ(t.textContent)) t.textContent = fmtDateTime(t.textContent)};
   console.log("Ran finalCleanup");
 }
+
+const isTimeZ = str => (str.match(/:/g) || []).length === 2 && str.endsWith('Z');
+const fmtDateTime = (d, i, z) => { if(!d)return"N/A";try{const s=new Date("string"==typeof d?d:i||(d?.toISOString?.()??''));if(isNaN(s.getTime()))return"Invalid Date";return s.toLocaleString("en-GB",{year:"numeric",month:"short",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:!1,timeZone:"UTC"}).replace(/,/,"")+(z?" (GMT)":"")}catch(t){return"Invalid Date"}};    
 
 function formatNotes(root = document) {
   ensureNoteStyles();
@@ -224,7 +228,7 @@ function formatNotes(root = document) {
   }
 
 //Small hack, easiest way
-	setTimeout(finalCleanup, 500);
+	setTimeout(finalCleanup, 200);
 }
 
 // --- post-pass ---
