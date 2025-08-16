@@ -87,7 +87,7 @@ function shapeLabel(key, {
   }
 
   // join segments with spaces
-  return out.join(" ");
+  return out.join(" ").replace("G 11","G11N");
 }
 
 function finalCleanup(){
