@@ -90,6 +90,13 @@ function shapeLabel(key, {
   return out.join(" ");
 }
 
+function finalCleanup(){
+  for (const t of document.querySelectorAll('span.note-field')) t.textContent += ':';
+  for (const t of document.querySelectorAll('span.note-value')) if (!t.textContent.includes('{')) t.textContent = t.textContent.replace(/^"|"$/g,'');
+  for (const t of document.querySelectorAll('span.note-expandable')) t.click();
+  console.log("Ran finalCleanup");
+}
+
 function formatNotes(root = document) {
   ensureNoteStyles();
   const hasShape = typeof window.shapeLabel === "function";
@@ -217,10 +224,11 @@ function formatNotes(root = document) {
   }
 
 //Small hack, easiest way
-for (tx of $$("span.note-field")) {tx.textContent = tx.textContent+":"};
-for (tg of $$("span.note-value")) {if (!tg.textContent.includes('{')) {tg.textContent=tg.textContent.replace(/^["]|["]$/g, '')}}
-for (a of $$("span.note-expandable")){a.click();}
+	setTimeout(finalCleanup, 500);
 }
+
+// --- post-pass ---
+
 
 function ensureNoteStyles() {
   if (document.getElementById("note-json-styles")) return;
