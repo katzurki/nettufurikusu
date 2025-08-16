@@ -1,7 +1,7 @@
 //HELPER SCRIPT for Netflix Originator Project Timeline function in AutoQC. Temporary solution so as not to mess with the template. 
 function shapeLabel(key, {
   smallWords = new Set(["a","an","the","and","but","or","nor","for","so","yet","at","by","in","of","on","to","up","off","as","via","from"]),
-  forceAcronyms = new Set(["ID","QC","DTT","SMPTE"]) // extend as needed
+  forceAcronyms = new Set(["ID","QC","DTT","SMPTE","g11N","G11N"]) // extend as needed
 } = {}) {
   if (typeof key !== "string" || !key.trim()) return "";
 
