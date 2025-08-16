@@ -189,7 +189,7 @@ function formatNotes(root = document) {
     };
 
     const outsideHandler = (e) => {
-      if (container.contains(e.target)) return;
+      if (!container.contains(e.target)) return;
       close();
     };
 
